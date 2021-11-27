@@ -1,0 +1,29 @@
+{
+  "editor.formatOnSave": true,
+  "xo.enable": true,
+  "xo.format.enable": true,
+  "[javascript]": {
+      "editor.defaultFormatter": "samverschueren.linter-xo"
+  },
+  "[typescript]": {
+      "editor.defaultFormatter": "samverschueren.linter-xo"
+  },
+  "todohighlight.defaultStyle": {
+    "isWholeLine": true,
+    "borderRadius": "3px",
+  },
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "#D97706",
+      "backgroundColor": "#FEF3C7",
+      "overviewRulerColor": "#FEF3C7",
+    },
+    {
+      "text": "REFACTOR:",
+      "color": "#4F46E5",
+      "backgroundColor": "#E0E7FF",
+      "overviewRulerColor": "#E0E7FF",
+    }
+  ]
+}

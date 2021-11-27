@@ -1,0 +1,68 @@
+{
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "husky": "^7.0.4",
+    "xo": "0.47.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "xo": {
+    "prettier": true,
+    "rules": {
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          "prefer": "type-imports"
+        }
+      ],
+      "curly": [
+        "error",
+        "all"
+      ],
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            [
+              "index",
+              "sibling",
+              "parent"
+            ],
+            "type"
+          ],
+          "pathGroups": [
+            {
+              "pattern": "node:{**,**/**}",
+              "group": "builtin",
+              "position": "before"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": [
+            "type"
+          ],
+          "newlines-between": "always"
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "endOfLine": "lf",
+    "jsxSingleQuote": true,
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "useTabs": false
+  }
+}
