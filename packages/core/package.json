@@ -5,6 +5,6 @@
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",
-    "compile:ts": "esbuild --outdir=dist"
+    "compile:ts": "esbuild --outdir=dist source/*.ts source/**/*.ts"
   }
 }
