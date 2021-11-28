@@ -2,6 +2,12 @@
   "name": "@wluwd/core",
   "version": "0.0.1",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/suite.js",
+      "types": "./dist/suite.dts"
+    }
+  },
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",
