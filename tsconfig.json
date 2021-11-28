@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "lib": ["ESNext"],
+    "strict": true,
+    "noImplicitAny": true,
+    "declaration": true,
+    "isolatedModules": true,
+  }
+}
