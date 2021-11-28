@@ -1,0 +1,10 @@
+{
+  "name": "@wluwd/core",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "clean": "del dist",
+    "compile:dts": "tsc",
+    "compile:ts": "esbuild --outdir=dist"
+  }
+}
