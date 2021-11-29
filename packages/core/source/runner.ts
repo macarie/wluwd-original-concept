@@ -1,9 +1,10 @@
 import { Worker } from 'node:worker_threads'
 import { resolve, relative } from 'node:path'
+import { performance } from 'node:perf_hooks'
 
 import pMap from 'p-map'
 
-import { logResults } from './log.js'
+import { logResults, logStats } from './log.js'
 
 import type { WorkerOptions } from 'node:worker_threads'
 import type { Result } from './types/result.js'
@@ -11,11 +12,13 @@ import type { Result } from './types/result.js'
 const runTest = async (
   test: string,
   { workerOptions, workingDirectory }: { workerOptions?: WorkerOptions; workingDirectory: string }
-): Promise<void> =>
+): Promise<Result[][]> =>
   new Promise((resolve) => {
+    const aggregatedResults: Result[][] = []
     const worker = new Worker(test, workerOptions)
 
     worker.on('message', ({ results, suiteName }: { results: Result[]; suiteName: string }) => {
+      aggregatedResults.push(results)
       logResults({
         filename: relative(workingDirectory, test),
         logFilename: true,
@@ -27,11 +30,11 @@ const runTest = async (
     worker.on('error', (...args) => {
       console.error(args)
 
-      resolve()
+      resolve(aggregatedResults)
     })
 
     worker.on('exit', () => {
-      resolve()
+      resolve(aggregatedResults)
     })
   })
 
@@ -42,5 +45,11 @@ type RunnerOptions = {
 }
 
 export const runner = async ({ concurrency, tests, workingDirectory }: RunnerOptions) => {
-  await pMap(tests, async (test) => runTest(resolve(workingDirectory, test), { workingDirectory }), { concurrency })
+  const startTime = performance.now()
+  const results = await pMap(tests, async (test) => runTest(resolve(workingDirectory, test), { workingDirectory }), {
+    concurrency,
+  })
+  const endTime = performance.now()
+
+  logStats(results.flat(2), endTime - startTime)
 }

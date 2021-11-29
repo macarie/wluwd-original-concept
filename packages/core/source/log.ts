@@ -1,6 +1,8 @@
-import { bgGreen, bgRed, bgWhite, black, green, red, underline, white, yellow } from 'kleur/colors'
+import { bgGreen, bgRed, bgWhite, black, cyan, dim, green, red, underline, white, yellow } from 'kleur/colors'
 
 import { Result } from './types/result.js'
+
+import type { Colorize } from 'kleur/colors'
 
 const okSymbol = green('•')
 const koSymbol = red('⨯')
@@ -65,4 +67,43 @@ export const logResults = ({ filename = '', logFilename, results, suiteName }: L
       ' '
     )}\n`
   )
+}
+
+const createStatLog = ([label, formatter]: [string, Colorize], rightPad: number, data: number | string) => {
+  const message = formatter(`${label.padEnd(rightPad, ' ')} ${data}`)
+
+  return data ? message : dim(message)
+}
+
+const formatTime = (time: number): string =>
+  new Intl.NumberFormat('en-US', {
+    style: 'unit',
+    unit: time > 10_000 ? 'second' : 'millisecond',
+    unitDisplay: 'narrow',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(time)
+
+const labels: Array<[string, Colorize]> = [
+  ['  Total:', white],
+  ['  Passed:', green],
+  ['  Skipped:', yellow],
+  ['  Failed:', red],
+  ['  Done in', cyan],
+]
+
+export const logStats = (results: Result[], time: number) => {
+  const rightPad = Math.max(...labels.map((label) => label[0].length)) + 1
+  const stats = getStats(results)
+
+  console.log()
+
+  console.log(createStatLog(labels[0], rightPad, stats.total))
+  console.log(createStatLog(labels[1], rightPad, stats.ok))
+  console.log(createStatLog(labels[2], rightPad, stats.skipped))
+  console.log(createStatLog(labels[3], rightPad, stats.ko))
+
+  console.log()
+
+  console.log(dim(createStatLog(labels[4], 0, formatTime(time))))
 }
