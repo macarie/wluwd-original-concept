@@ -12,5 +12,8 @@
     "clean": "del dist",
     "compile:dts": "tsc",
     "compile:ts": "esbuild --outdir=dist source/*.ts source/**/*.ts"
+  },
+  "dependencies": {
+    "kleur": "^4.1.4"
   }
 }

@@ -1,5 +1,6 @@
 import { parallel } from './utilities/parallel.js'
 import { serial } from './utilities/serial.js'
+import { logResults } from './log.js'
 
 import type { Test } from './types/test.js'
 import type { Hook } from './types/hook.js'
@@ -25,5 +26,8 @@ export const suite = async ({ name, hooks, tests }: SuiteOptions) => {
   const results = await executor(filteredTests, { before: hooks?.before?.test, after: hooks?.after?.test })
   await hooks?.after?.suite?.()
 
-  console.log(name, results)
+  logResults({
+    results,
+    suiteName: name,
+  })
 }
