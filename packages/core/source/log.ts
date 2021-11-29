@@ -46,13 +46,19 @@ const getStats = (results: Result[]) => {
 }
 
 type LogResultsOptions = {
+  filename?: string
+  logFilename: boolean
   results: Result[]
   suiteName: string
 }
 
-export const logResults = ({ results, suiteName }: LogResultsOptions): void => {
+export const logResults = ({ filename = '', logFilename, results, suiteName }: LogResultsOptions): void => {
   const stats = getStats(results)
   const bgResults = stats.ko > 0 ? bgRed : bgGreen
+
+  if (logFilename) {
+    console.log(underline(white(filename)))
+  }
 
   console.log(
     `${bgWhite(black(` ${suiteName} `))}${bgResults(white(` ${stats.ok}/${stats.total} `))} ${stats.symbols.join(

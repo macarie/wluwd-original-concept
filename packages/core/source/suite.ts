@@ -27,6 +27,7 @@ export const suite = async ({ name, hooks, tests }: SuiteOptions) => {
   await hooks?.after?.suite?.()
 
   logResults({
+    logFilename: false,
     results,
     suiteName: name,
   })
