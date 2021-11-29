@@ -1,3 +1,5 @@
+import { isMainThread, parentPort } from 'node:worker_threads'
+
 import { parallel } from './utilities/parallel.js'
 import { serial } from './utilities/serial.js'
 import { logResults } from './log.js'
@@ -26,8 +28,17 @@ export const suite = async ({ name, hooks, tests }: SuiteOptions) => {
   const results = await executor(filteredTests, { before: hooks?.before?.test, after: hooks?.after?.test })
   await hooks?.after?.suite?.()
 
-  logResults({
-    logFilename: false,
+  if (isMainThread) {
+    logResults({
+      logFilename: false,
+      results,
+      suiteName: name,
+    })
+
+    return
+  }
+
+  parentPort!.postMessage({
     results,
     suiteName: name,
   })
