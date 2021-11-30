@@ -11,7 +11,9 @@
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",
-    "compile:ts": "esbuild --outdir=dist source/*.ts source/**/*.ts"
+    "compile:ts": "esbuild --outdir=dist source/*.ts source/**/*.ts",
+    "lint": "xo --cwd ../.. packages/core/source",
+    "typecheck": "tsc --emitDeclarationOnly false --noEmit"
   },
   "dependencies": {
     "kleur": "^4.1.4",
