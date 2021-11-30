@@ -4,7 +4,7 @@ import { performance } from 'node:perf_hooks'
 
 import pMap from 'p-map'
 
-import { logResults, logStats } from './log.js'
+import { logResults, logStats } from './utilities/log.js'
 
 import type { WorkerOptions } from 'node:worker_threads'
 import type { Result } from './types/result.js'
