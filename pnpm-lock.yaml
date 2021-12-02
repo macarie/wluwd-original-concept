@@ -22,14 +22,18 @@ importers:
       typescript: 4.5.2
       xo: 0.47.0
 
+  packages/common:
+    specifiers:
+      kleur: ^4.1.4
+    dependencies:
+      kleur: 4.1.4
+
   packages/core:
     specifiers:
       '@wluwd/common': workspace:^0.0.1
-      kleur: ^4.1.4
       p-map: ^5.3.0
     dependencies:
       '@wluwd/common': link:../common
-      kleur: 4.1.4
       p-map: 5.3.0
 
 packages:

@@ -1,8 +1,9 @@
 import { isMainThread, parentPort } from 'node:worker_threads'
 
+import { logResults } from '@wluwd/common/log'
+
 import { parallel } from './utilities/parallel.js'
 import { serial } from './utilities/serial.js'
-import { logResults } from './utilities/log.js'
 
 import type { Test } from './types/test.js'
 import type { Hook } from './types/hook.js'

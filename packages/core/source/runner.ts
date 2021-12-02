@@ -3,8 +3,7 @@ import { resolve, relative } from 'node:path'
 import { performance } from 'node:perf_hooks'
 
 import pMap from 'p-map'
-
-import { logResults, logStats } from './utilities/log.js'
+import { logResults, logStats } from '@wluwd/common/log'
 
 import type { WorkerOptions } from 'node:worker_threads'
 import type { Result } from '@wluwd/common/result'

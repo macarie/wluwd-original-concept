@@ -4,12 +4,19 @@
   "type": "module",
     "typesVersions": {
     "*": {
+      "log": [
+        "dist/log.d.ts"
+      ],
       "result": [
         "dist/result.d.ts"
       ]
     }
   },
   "exports": {
+    "./log": {
+      "import": "./dist/log.js",
+      "types": "./dist/log.d.ts"
+    },
     "./result": {
       "import": "./dist/result.js",
       "types": "./dist/result.d.ts"
@@ -21,5 +28,8 @@
     "compile:ts": "esbuild --outdir=dist source/*.ts",
     "lint": "xo --cwd ../.. packages/common/source",
     "typecheck": "tsc --emitDeclarationOnly false --noEmit"
+  },
+  "dependencies": {
+    "kleur": "^4.1.4"
   }
 }

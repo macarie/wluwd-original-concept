@@ -1,5 +1,6 @@
 import { bgGreen, bgRed, bgWhite, black, cyan, dim, green, red, underline, white, yellow } from 'kleur/colors'
-import { Result } from '@wluwd/common/result'
+
+import { Result } from './result.js'
 
 import type { Colorize } from 'kleur/colors'
 
