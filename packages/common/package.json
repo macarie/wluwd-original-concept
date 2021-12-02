@@ -2,7 +2,19 @@
   "name": "@wluwd/common",
   "version": "0.0.1",
   "type": "module",
-  "exports": {},
+    "typesVersions": {
+    "*": {
+      "result": [
+        "dist/result.d.ts"
+      ]
+    }
+  },
+  "exports": {
+    "./result": {
+      "import": "./dist/result.js",
+      "types": "./dist/result.d.ts"
+    }
+  },
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",

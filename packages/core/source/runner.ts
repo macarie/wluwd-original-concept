@@ -7,7 +7,7 @@ import pMap from 'p-map'
 import { logResults, logStats } from './utilities/log.js'
 
 import type { WorkerOptions } from 'node:worker_threads'
-import type { Result } from './types/result.js'
+import type { Result } from '@wluwd/common/result'
 
 const runTest = async (
   test: string,

@@ -1,4 +1,4 @@
-import { Result } from '../types/result.js'
+import { Result } from '@wluwd/common/result'
 
 import type { Test } from '../types/test.js'
 import type { Hook } from '../types/hook.js'
