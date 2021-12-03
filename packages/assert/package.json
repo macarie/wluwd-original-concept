@@ -1,0 +1,16 @@
+{
+  "name": "@wluwd/assert",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {},
+  "scripts": {
+    "clean": "del dist",
+    "compile:dts": "tsc",
+    "compile:ts": "esbuild --outdir=dist source/*.ts",
+    "lint": "xo --cwd ../.. packages/assert/source",
+    "typecheck": "tsc --emitDeclarationOnly false --noEmit"
+  },
+  "dependencies": {
+    "@wluwd/common": "workspace:^0.0.1"
+  }
+}

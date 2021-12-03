@@ -22,6 +22,12 @@ importers:
       typescript: 4.5.2
       xo: 0.47.0
 
+  packages/assert:
+    specifiers:
+      '@wluwd/common': workspace:^0.0.1
+    dependencies:
+      '@wluwd/common': link:../common
+
   packages/common:
     specifiers:
       kleur: ^4.1.4
