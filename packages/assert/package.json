@@ -2,7 +2,13 @@
   "name": "@wluwd/assert",
   "version": "0.0.1",
   "type": "module",
-  "exports": {},
+  "types": "./dist/assert.d.ts",
+  "exports": {
+    "./": {
+      "import": "./dist/assert.js",
+      "types": "./dist/assert.d.ts"
+    }
+  },
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",
