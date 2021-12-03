@@ -43,3 +43,5 @@ export const expect = <ValueType>(value: ValueType): Expect<ValueType> => {
     to,
   }
 }
+
+export * from './testers.js'

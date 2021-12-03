@@ -25,8 +25,10 @@ importers:
   packages/assert:
     specifiers:
       '@wluwd/common': workspace:^0.0.1
+      dequal: ^2.0.2
     dependencies:
       '@wluwd/common': link:../common
+      dequal: 2.0.2
 
   packages/common:
     specifiers:
@@ -1077,6 +1079,11 @@ packages:
       rimraf: 3.0.2
       slash: 3.0.0
     dev: true
+
+  /dequal/2.0.2:
+    resolution: {integrity: sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==}
+    engines: {node: '>=6'}
+    dev: false
 
   /diff/4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}

@@ -17,6 +17,7 @@
     "typecheck": "tsc --emitDeclarationOnly false --noEmit"
   },
   "dependencies": {
-    "@wluwd/common": "workspace:^0.0.1"
+    "@wluwd/common": "workspace:^0.0.1",
+    "dequal": "^2.0.2"
   }
 }
