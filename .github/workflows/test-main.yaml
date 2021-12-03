@@ -27,6 +27,6 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
-      - run: pnpm install
+      - run: pnpm recursive install
       - run: pnpm run --recursive --parallel lint
       - run: pnpm run --recursive --parallel typecheck
