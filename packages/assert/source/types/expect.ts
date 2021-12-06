@@ -1,34 +1,34 @@
 import type { AssertionError } from '@wluwd/common/assertion-error'
 
-type TesterAcceptsValue<Value, Tester> = Tester extends (input: Value, ...args: any[]) => boolean ? Tester : never
-type RemainingTesterArguments<Value, Tester> = Tester extends (
-  input: Value,
+type TesterAcceptsValue<Input, Tester> = Tester extends (input: Input, ...args: any[]) => boolean ? Tester : never
+type RemainingTesterArguments<Input, Tester> = Tester extends (
+  input: Input,
   ...args: infer RemainingArguments
 ) => boolean
   ? RemainingArguments
   : never
 
-type BaseTester<Value, ReturnValue> = <GivenTester>(
-  tester: TesterAcceptsValue<Value, GivenTester>,
-  ...args: RemainingTesterArguments<Value, GivenTester>
+type BaseTester<Input, ReturnValue> = <GivenTester>(
+  tester: TesterAcceptsValue<Input, GivenTester>,
+  ...args: RemainingTesterArguments<Input, GivenTester>
 ) => ReturnValue
 
-type BaseExpectProperty<Properties extends Record<string, unknown>, Value> = BaseTester<
-  Value,
+type BaseExpectProperty<Properties extends Record<string, unknown>, Input> = BaseTester<
+  Input,
   true | AssertionError
 > & { [Property in keyof Properties]: Properties[Property] }
 
-export type Expect<Value> = {
+export type Expect<Input> = {
   to: BaseExpectProperty<
     {
       not: BaseExpectProperty<
         {
-          be: BaseTester<Value, true | AssertionError>
+          be: BaseTester<Input, true | AssertionError>
         },
-        Value
+        Input
       >
-      be: BaseTester<Value, true | AssertionError>
+      be: BaseTester<Input, true | AssertionError>
     },
-    Value
+    Input
   >
 }

@@ -2,20 +2,20 @@ import { resultOrError } from './utils/result-or-error.js'
 
 import type { Expect } from './types/expect.js'
 
-export const expect = <ValueType>(value: ValueType): Expect<ValueType> => {
-  const to: Expect<ValueType>['to'] = (tester, ...args) =>
+export const expect = <InputType>(input: InputType): Expect<InputType> => {
+  const to: Expect<InputType>['to'] = (tester, ...args) =>
     resultOrError({
-      result: tester(value, ...args),
+      result: tester(input, ...args),
       origin: to,
-      input: value,
+      input,
       expected: args[0],
     })
 
-  const not: Expect<ValueType>['to']['not'] = (tester, ...args) =>
+  const not: Expect<InputType>['to']['not'] = (tester, ...args) =>
     resultOrError({
-      result: !tester(value, ...args),
+      result: !tester(input, ...args),
       origin: to,
-      input: value,
+      input,
       expected: args[0],
     })
 
