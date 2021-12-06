@@ -18,6 +18,10 @@
   },
   "dependencies": {
     "@wluwd/common": "workspace:^0.0.1",
-    "dequal": "^2.0.2"
+    "dequal": "^2.0.2",
+    "diff": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.1"
   }
 }

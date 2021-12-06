@@ -1,3 +1,5 @@
+import type { AssertionError } from '@wluwd/common/assertion-error'
+
 type TesterAcceptsValue<Value, Tester> = Tester extends (input: Value, ...args: any[]) => boolean ? Tester : never
 type RemainingTesterArguments<Value, Tester> = Tester extends (
   input: Value,
@@ -11,20 +13,21 @@ type BaseTester<Value, ReturnValue> = <GivenTester>(
   ...args: RemainingTesterArguments<Value, GivenTester>
 ) => ReturnValue
 
-type BaseExpectProperty<Properties extends Record<string, unknown>, Value> = BaseTester<Value, boolean> & {
-  [Property in keyof Properties]: Properties[Property]
-}
+type BaseExpectProperty<Properties extends Record<string, unknown>, Value> = BaseTester<
+  Value,
+  true | AssertionError
+> & { [Property in keyof Properties]: Properties[Property] }
 
 export type Expect<Value> = {
   to: BaseExpectProperty<
     {
       not: BaseExpectProperty<
         {
-          be: BaseTester<Value, boolean>
+          be: BaseTester<Value, true | AssertionError>
         },
         Value
       >
-      be: BaseTester<Value, boolean>
+      be: BaseTester<Value, true | AssertionError>
     },
     Value
   >
