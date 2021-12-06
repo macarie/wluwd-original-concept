@@ -5,7 +5,7 @@ import { inspect } from './inspect.js'
 
 import type { AssertionError } from '@wluwd/common/assertion-error'
 
-type CheckResultOptions = {
+type ResultOrErrorOptions = {
   result: boolean
   origin: Function // eslint-disable-line @typescript-eslint/ban-types
   input: any
@@ -22,7 +22,7 @@ const createDiff = (input: string, expected: string): AssertionError['diff'] =>
     value,
   }))
 
-export const resultOrError = ({ result, origin, input, expected }: CheckResultOptions): true | AssertionError => {
+export const resultOrError = ({ result, origin, input, expected }: ResultOrErrorOptions): true | AssertionError => {
   if (result) {
     return true
   }
