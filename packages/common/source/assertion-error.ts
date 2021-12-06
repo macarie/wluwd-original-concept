@@ -9,7 +9,7 @@ export type AssertionError = {
   }
   diff: Array<{
     value: string
-    type: 'added' | 'removed' | undefined
+    type: 'delete' | 'equal' | 'insert'
   }>
 }
 
