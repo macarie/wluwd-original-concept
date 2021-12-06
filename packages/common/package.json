@@ -4,6 +4,9 @@
   "type": "module",
     "typesVersions": {
     "*": {
+      "assertion-error": [
+        "dist/assertion-error.d.ts"
+      ],
       "log": [
         "dist/log.d.ts"
       ],
@@ -13,6 +16,10 @@
     }
   },
   "exports": {
+    "./assertion-error": {
+      "import": "./dist/assertion-error.js",
+      "types": "./dist/assertion-error.d.ts"
+    },
     "./log": {
       "import": "./dist/log.js",
       "types": "./dist/log.d.ts"
