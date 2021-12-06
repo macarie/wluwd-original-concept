@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",
-    "compile:ts": "esbuild --outdir=dist source/*.ts",
+    "compile:ts": "esbuild --outdir=dist source/*.ts source/**/*.ts",
     "lint": "xo --cwd ../.. packages/assert/source",
     "typecheck": "tsc --emitDeclarationOnly false --noEmit"
   },
