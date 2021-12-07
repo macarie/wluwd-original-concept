@@ -12,8 +12,8 @@ type ResultOrErrorOptions = {
   expected: any
 }
 
-const getAssertionErrorOrigin = (stack: string) => stack.split('\n')[1]?.replace('at', '').trim()
-const getErrorFile = (errorOrigin: string) => errorOrigin.replace(/\d+\W\d+$/, '')
+const getAssertionErrorOrigin = (stack: string) => /(file:.*?\W\d+\W\d+)\W*$/.exec(stack.split('\n')[1])![1]
+const getErrorFile = (errorOrigin: string) => errorOrigin.replace(/\W\d+\W\d+$/, '')
 const getErrorLine = (errorOrigin: string) => Number(/(?<line>\d+)\W\d+$/.exec(errorOrigin)?.groups?.line ?? -1)
 const getErrorCursor = (errorOrigin: string) => Number(/\d+\W(?<cursor>\d+)$/.exec(errorOrigin)?.groups?.cursor ?? -1)
 const createDiff = (input: string, expected: string): AssertionError['diff'] =>
