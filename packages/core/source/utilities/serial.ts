@@ -1,6 +1,8 @@
 import { Result } from '@wluwd/common/result'
 import { isAssertionError } from '@wluwd/common/assertion-error'
 
+import { addTestTitle } from './add-test-title.js'
+
 import type { AssertionError } from '@wluwd/common/assertion-error'
 import type { Test } from '../types/test.js'
 import type { Hook } from '../types/hook.js'
@@ -23,7 +25,7 @@ export const serial = async (
       if (isAssertionError(assertionResult)) {
         await hooks.after?.()
 
-        return [...currentResults, assertionResult]
+        return [...currentResults, addTestTitle(assertionResult, test.name)]
       }
 
       if (!assertionResult) {

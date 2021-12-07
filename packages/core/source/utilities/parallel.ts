@@ -1,6 +1,8 @@
 import { Result } from '@wluwd/common/result'
 import { isAssertionError } from '@wluwd/common/assertion-error'
 
+import { addTestTitle } from './add-test-title.js'
+
 import type { AssertionError } from '@wluwd/common/assertion-error'
 import type { Test } from '../types/test.js'
 
@@ -13,7 +15,7 @@ export const parallel = async (tests: Test[]): Promise<Array<Result | AssertionE
 
       for await (const assertionResult of test.fn()) {
         if (isAssertionError(assertionResult)) {
-          return assertionResult
+          return addTestTitle(assertionResult, test.name)
         }
 
         if (!assertionResult) {
