@@ -20,4 +20,5 @@ export const createAssertionError = (
   ...errorProperties,
 })
 
-export const isAssertionError = (baseObject: AssertionError) => Reflect.has(baseObject, assertionErrorSymbol)
+export const isAssertionError = (baseObject: unknown): baseObject is AssertionError =>
+  typeof baseObject === 'object' && baseObject !== null && Reflect.has(baseObject, assertionErrorSymbol)
