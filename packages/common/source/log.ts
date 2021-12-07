@@ -3,6 +3,7 @@ import { bgGreen, bgRed, bgWhite, black, cyan, dim, green, red, underline, white
 import { Result } from './result.js'
 
 import type { Colorize } from 'kleur/colors'
+import type { AssertionError } from './assertion-error.js'
 
 const okSymbol = green('•')
 const koSymbol = red('⨯')
@@ -16,8 +17,8 @@ type Stats = {
   symbols: string[]
 }
 
-const getStats = (results: Result[]) => {
   const stats: Stats = { ok: 0, ko: 0, skipped: 0, total: 0, symbols: [] }
+const getStats = (results: Array<Result | AssertionError>) => {
 
   for (const result of results) {
     // eslint-disable-next-line default-case
@@ -28,16 +29,16 @@ const getStats = (results: Result[]) => {
 
         break
 
-      case Result.KO:
-        stats.ko += 1
-        stats.symbols.push(koSymbol)
-
-        break
-
       case Result.SKIPPED:
         stats.skipped += 1
         stats.symbols.push(skippedSymbol)
 
+        break
+
+      case Result.KO:
+      default:
+        stats.ko += 1
+        stats.symbols.push(koSymbol)
         break
     }
   }
@@ -50,7 +51,7 @@ const getStats = (results: Result[]) => {
 type LogResultsOptions = {
   filename?: string
   logFilename: boolean
-  results: Result[]
+  results: Array<Result | AssertionError>
   suiteName: string
 }
 
