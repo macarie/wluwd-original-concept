@@ -66,15 +66,19 @@ export const logResults = ({
 }: LogResultsOptions): void => {
   const bgResults = stats.ko > 0 ? bgRed : bgGreen
 
+  const output: string[] = []
+
   if (logFilename) {
-    console.log(underline(white(relative(workingDirectory, filename))))
+    output.push(underline(white(relative(workingDirectory, filename))))
   }
 
-  console.log(
+  output.push(
     `${bgWhite(black(` ${suiteName} `))}${bgResults(white(` ${stats.ok}/${stats.total} `))} ${stats.symbols.join(
       ' '
     )}\n`
   )
+
+  console.log(output.join('\n'))
 }
 
 const createStatLog = ([label, formatter]: [string, Colorize], rightPad: number, data: number | string) => {
