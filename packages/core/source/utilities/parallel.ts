@@ -1,8 +1,10 @@
 import { Result } from '@wluwd/common/result'
+import { isAssertionError } from '@wluwd/common/assertion-error'
 
+import type { AssertionError } from '@wluwd/common/assertion-error'
 import type { Test } from '../types/test.js'
 
-export const parallel = async (tests: Test[]): Promise<Result[]> =>
+export const parallel = async (tests: Test[]): Promise<Array<Result | AssertionError>> =>
   Promise.all(
     tests.map(async (test) => {
       if (test.skip) {
@@ -10,6 +12,10 @@ export const parallel = async (tests: Test[]): Promise<Result[]> =>
       }
 
       for await (const assertionResult of test.fn()) {
+        if (isAssertionError(assertionResult)) {
+          return assertionResult
+        }
+
         if (!assertionResult) {
           return Result.KO
         }
