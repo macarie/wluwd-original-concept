@@ -23,6 +23,7 @@ const runTest = async (
         logFilename: true,
         results,
         suiteName,
+        workingDirectory,
       })
     })
 

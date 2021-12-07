@@ -53,14 +53,21 @@ type LogResultsOptions = {
   logFilename: boolean
   results: Array<Result | AssertionError>
   suiteName: string
+  workingDirectory: string
 }
 
-export const logResults = ({ filename = '', logFilename, results, suiteName }: LogResultsOptions): void => {
   const stats = getStats(results)
+export const logResults = ({
+  filename = '',
+  logFilename,
+  results,
+  suiteName,
+  workingDirectory,
+}: LogResultsOptions): void => {
   const bgResults = stats.ko > 0 ? bgRed : bgGreen
 
   if (logFilename) {
-    console.log(underline(white(filename)))
+    console.log(underline(white(relative(workingDirectory, filename))))
   }
 
   console.log(

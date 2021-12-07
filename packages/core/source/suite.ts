@@ -1,4 +1,5 @@
 import { isMainThread, parentPort } from 'node:worker_threads'
+import { cwd } from 'node:process'
 
 import { logResults } from '@wluwd/common/log'
 
@@ -34,6 +35,7 @@ export const suite = async ({ name, hooks, tests }: SuiteOptions) => {
       logFilename: false,
       results,
       suiteName: name,
+      workingDirectory: cwd(),
     })
 
     return
