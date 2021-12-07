@@ -2,6 +2,7 @@ const assertionErrorSymbol = Symbol('assertionError')
 
 export type AssertionError = {
   [assertionErrorSymbol]: true
+  title: string
   file: {
     path: string
     line: number

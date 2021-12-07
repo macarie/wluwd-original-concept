@@ -34,6 +34,7 @@ export const resultOrError = ({ result, origin, input, expected }: ResultOrError
   const assertionErrorOrigin = getAssertionErrorOrigin(error.stack!)
 
   return createAssertionError({
+    title: 'Test',
     file: {
       path: getErrorFile(assertionErrorOrigin),
       line: getErrorLine(assertionErrorOrigin),
