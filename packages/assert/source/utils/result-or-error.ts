@@ -1,6 +1,6 @@
-import { diffLines } from 'diff'
 import { createAssertionError } from '@wluwd/common/assertion-error'
 
+import { createDiff } from './create-diff.js'
 import { inspect } from './inspect.js'
 
 import type { AssertionError } from '@wluwd/common/assertion-error'
@@ -16,11 +16,6 @@ const getAssertionErrorOrigin = (stack: string) => /(file:.*?\W\d+\W\d+)\W*$/.ex
 const getErrorFile = (errorOrigin: string) => errorOrigin.replace(/\W\d+\W\d+$/, '')
 const getErrorLine = (errorOrigin: string) => Number(/(?<line>\d+)\W\d+$/.exec(errorOrigin)?.groups?.line ?? -1)
 const getErrorCursor = (errorOrigin: string) => Number(/\d+\W(?<cursor>\d+)$/.exec(errorOrigin)?.groups?.cursor ?? -1)
-const createDiff = (input: string, expected: string): AssertionError['diff'] =>
-  diffLines(input, expected).map(({ added, removed, value }) => ({
-    type: added ? 'insert' : removed ? 'delete' : 'equal',
-    value,
-  }))
 
 export const resultOrError = ({ result, origin, input, expected }: ResultOrErrorOptions): true | AssertionError => {
   if (result) {
