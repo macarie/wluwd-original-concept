@@ -4,12 +4,14 @@ import { createDiff } from './create-diff.js'
 import { inspect } from './inspect.js'
 
 import type { AssertionError } from '@wluwd/common/assertion-error'
+import type { createTester } from './create-tester.js'
 
 type ResultOrErrorOptions = {
-  result: boolean
+  args: unknown[]
+  negated: boolean
   origin: Function // eslint-disable-line @typescript-eslint/ban-types
-  input: any
-  expected: any
+  result: boolean
+  tester: ReturnType<typeof createTester>
 }
 
 const getAssertionErrorOrigin = (stack: string) => /(file:.*?\W\d+\W\d+)\W*$/.exec(stack.split('\n')[1])![1]
@@ -17,7 +19,13 @@ const getErrorFile = (errorOrigin: string) => errorOrigin.replace(/\W\d+\W\d+$/,
 const getErrorLine = (errorOrigin: string) => Number(/(?<line>\d+)\W\d+$/.exec(errorOrigin)?.groups?.line ?? -1)
 const getErrorCursor = (errorOrigin: string) => Number(/\d+\W(?<cursor>\d+)$/.exec(errorOrigin)?.groups?.cursor ?? -1)
 
-export const resultOrError = ({ result, origin, input, expected }: ResultOrErrorOptions): true | AssertionError => {
+export const resultOrError = ({
+  args,
+  negated,
+  origin,
+  result,
+  tester,
+}: ResultOrErrorOptions): true | AssertionError => {
   if (result) {
     return true
   }
@@ -35,6 +43,6 @@ export const resultOrError = ({ result, origin, input, expected }: ResultOrError
       line: getErrorLine(assertionErrorOrigin),
       cursor: getErrorCursor(assertionErrorOrigin),
     },
-    diff: createDiff(inspect(input), inspect(expected)),
+    diff: tester.explain({ args, createDiff, inspect, negated }),
   })
 }

@@ -1,6 +1,10 @@
 import type { AssertionError } from '@wluwd/common/assertion-error'
+import type { createTester } from '../utils/create-tester.js'
 
-type TesterAcceptsValue<Input, Tester> = Tester extends (input: Input, ...args: any[]) => boolean ? Tester : never
+type TesterAcceptsValue<Input, Tester> = Tester extends ((input: Input, ...args: any[]) => boolean) &
+  ReturnType<typeof createTester>
+  ? Tester
+  : never
 type RemainingTesterArguments<Input, Tester> = Tester extends (
   input: Input,
   ...args: infer RemainingArguments
