@@ -8,10 +8,13 @@ export type AssertionError = {
     line: number
     cursor: number
   }
-  diff: Array<{
-    value: string
-    type: 'delete' | 'equal' | 'insert'
-  }>
+  diff: {
+    message: string
+    content: Array<{
+      value: string
+      type: 'delete' | 'equal' | 'insert'
+    }>
+  }
 }
 
 export const createAssertionError = (
