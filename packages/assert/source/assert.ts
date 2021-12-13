@@ -17,7 +17,7 @@ export const expect = <InputType>(input: InputType): Expect<InputType> => {
       args: [input, ...args],
       negated: true,
       result: !tester(input, ...args),
-      origin: to,
+      origin: not,
       tester,
     })
 
