@@ -1,4 +1,22 @@
-import { bgGreen, bgRed, bgWhite, black, cyan, dim, green, red, underline, white, yellow } from 'kleur/colors'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { relative } from 'node:path'
+
+import {
+  bgGreen,
+  bgRed,
+  bgWhite,
+  black,
+  bold,
+  cyan,
+  dim,
+  gray,
+  green,
+  red,
+  underline,
+  white,
+  yellow,
+} from 'kleur/colors'
 
 import { Result } from './result.js'
 
@@ -8,6 +26,86 @@ import type { AssertionError } from './assertion-error.js'
 const okSymbol = green('•')
 const koSymbol = red('⨯')
 const skippedSymbol = yellow('~')
+const minusSymbol = red('  - ')
+const plusSymbol = green('  + ')
+const padding = '    '
+const cleanValue = (string: string): string => string.replace(/\r/g, '').replace(/\n$/, '')
+
+const formatDiff = (diff: AssertionError['diff']): string => {
+  let output = ''
+
+  for (const { type, value } of diff.content) {
+    if (type === 'equal') {
+      for (const line of dim(gray(cleanValue(value))).split('\n')) {
+        output += `${padding}${line}\n`
+      }
+    } else {
+      const symbol = type === 'insert' ? plusSymbol : minusSymbol
+
+      for (const line of cleanValue(value).split('\n')) {
+        output += `${symbol}${bold(line)}\n`
+      }
+    }
+  }
+
+  return output
+}
+
+export const getLines = (file: string, line: number): Array<[number, string]> => {
+  const fileContents = readFileSync(file, 'utf8')
+  const lines = fileContents.split('\n')
+
+  const output: Array<[number, string]> = []
+
+  const start = Math.max(0, line - 2)
+  const end = Math.min(lines.length, line + 1)
+
+  for (let i = start; i < end; i += 1) {
+    output.push([i + 1, lines[i]])
+  }
+
+  return output
+}
+
+const identity = <BaseType>(x: BaseType): BaseType => x
+
+const createErrorLog = (assertionError: AssertionError | Result.KO, workingDirectory: string): string => {
+  if (assertionError === Result.KO) {
+    return 'something went wrong'
+  }
+
+  const { path, line, cursor } = assertionError.file
+  const filePath = fileURLToPath(path)
+  const errorLines = getLines(filePath, line)
+  const linePad = Math.log10(line) + 1
+
+  const output = `  ${bold(assertionError.title)}\n  ${dim(
+    gray(`» ${relative(workingDirectory, filePath)}:${line}:${cursor}`)
+  )}\n\n${errorLines
+    .map(([lineNumber, content]) => {
+      const isErrorLine = lineNumber === line
+      const lineStyles = isErrorLine
+        ? {
+            bgColor: bgRed,
+            modifier: bold,
+            numberColor: red,
+          }
+        : {
+            bgColor: identity,
+            modifier: dim,
+            numberColor: gray,
+          }
+
+      return lineStyles.modifier(
+        `  ${bgWhite(lineStyles.numberColor(` ${lineNumber.toString().padStart(linePad, ' ')} `))}${lineStyles.bgColor(
+          `${content} `
+        )}`
+      )
+    })
+    .join('\n')}\n\n  ${assertionError.diff.message}\n\n${formatDiff(assertionError.diff)}\n`
+
+  return output
+}
 
 type Stats = {
   ok: number
@@ -15,13 +113,13 @@ type Stats = {
   skipped: number
   total: number
   symbols: string[]
+  errors: string[]
 }
 
-  const stats: Stats = { ok: 0, ko: 0, skipped: 0, total: 0, symbols: [] }
-const getStats = (results: Array<Result | AssertionError>) => {
+const getStats = (results: Array<Result | AssertionError>, workingDirectory?: string) => {
+  const stats: Stats = { ok: 0, ko: 0, skipped: 0, total: 0, symbols: [], errors: [] }
 
   for (const result of results) {
-    // eslint-disable-next-line default-case
     switch (result) {
       case Result.OK:
         stats.ok += 1
@@ -39,6 +137,11 @@ const getStats = (results: Array<Result | AssertionError>) => {
       default:
         stats.ko += 1
         stats.symbols.push(koSymbol)
+
+        if (workingDirectory) {
+          stats.errors.push(createErrorLog(result, workingDirectory))
+        }
+
         break
     }
   }
@@ -56,7 +159,6 @@ type LogResultsOptions = {
   workingDirectory: string
 }
 
-  const stats = getStats(results)
 export const logResults = ({
   filename = '',
   logFilename,
@@ -64,6 +166,7 @@ export const logResults = ({
   suiteName,
   workingDirectory,
 }: LogResultsOptions): void => {
+  const stats = getStats(results, workingDirectory)
   const bgResults = stats.ko > 0 ? bgRed : bgGreen
 
   const output: string[] = []
@@ -77,6 +180,10 @@ export const logResults = ({
       ' '
     )}\n`
   )
+
+  if (stats.errors.length > 0) {
+    output.push(`${stats.errors.join('')}`)
+  }
 
   console.log(output.join('\n'))
 }
