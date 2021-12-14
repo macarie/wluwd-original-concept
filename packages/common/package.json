@@ -2,13 +2,16 @@
   "name": "@wluwd/common",
   "version": "0.0.1",
   "type": "module",
-    "typesVersions": {
+  "typesVersions": {
     "*": {
       "assertion-error": [
         "dist/assertion-error.d.ts"
       ],
       "log": [
         "dist/log.d.ts"
+      ],
+      "message-symbols": [
+        "dist/message-symbols.d.ts"
       ],
       "result": [
         "dist/result.d.ts"
@@ -24,6 +27,10 @@
       "import": "./dist/log.js",
       "types": "./dist/log.d.ts"
     },
+    "./message-symbols": {
+      "import": "./dist/message-symbols.js",
+      "types": "./dist/message-symbols.d.ts"
+    },
     "./result": {
       "import": "./dist/result.js",
       "types": "./dist/result.d.ts"
@@ -32,7 +39,7 @@
   "scripts": {
     "clean": "del dist",
     "compile:dts": "tsc",
-    "compile:ts": "esbuild --outdir=dist source/*.ts",
+    "compile:ts": "esbuild --outdir=dist source/*.ts source/**/*.ts",
     "lint": "xo --cwd ../.. packages/common/source",
     "typecheck": "tsc --emitDeclarationOnly false --noEmit"
   },

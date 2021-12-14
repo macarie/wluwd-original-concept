@@ -19,6 +19,7 @@ import {
 } from 'kleur/colors'
 
 import { Result } from './result.js'
+import { messages } from './utils/messages.js'
 
 import type { Colorize } from 'kleur/colors'
 import type { AssertionError } from './assertion-error.js'
@@ -68,6 +69,7 @@ export const getLines = (file: string, line: number): Array<[number, string]> =>
 }
 
 const identity = <BaseType>(x: BaseType): BaseType => x
+const message = (message: string): string => messages[message] ?? message
 
 const createErrorLog = (assertionError: AssertionError | Result.KO, workingDirectory: string): string => {
   if (assertionError === Result.KO) {
@@ -102,7 +104,7 @@ const createErrorLog = (assertionError: AssertionError | Result.KO, workingDirec
         )}`
       )
     })
-    .join('\n')}\n\n  ${assertionError.diff.message}\n\n${formatDiff(assertionError.diff)}\n`
+    .join('\n')}\n\n  ${message(assertionError.diff.message)}\n\n${formatDiff(assertionError.diff)}\n`
 
   return output
 }
