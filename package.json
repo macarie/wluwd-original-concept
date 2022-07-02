@@ -33,24 +33,21 @@
       "import/order": [
         "error",
         {
+          "alphabetize": {
+            "caseInsensitive": true,
+            "order": "asc"
+          },
           "groups": [
-            "builtin",
-            "external",
             [
-              "index",
+              "builtin",
+              "external",
+              "internal",
+              "unknown",
+              "parent",
               "sibling",
-              "parent"
+              "index",
+              "object"
             ],
-            "type"
-          ],
-          "pathGroups": [
-            {
-              "pattern": "node:{**,**/**}",
-              "group": "builtin",
-              "position": "before"
-            }
-          ],
-          "pathGroupsExcludedImportTypes": [
             "type"
           ],
           "newlines-between": "always"
