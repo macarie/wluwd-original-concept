@@ -30,6 +30,7 @@
         "error",
         "all"
       ],
+      "import/newline-after-import": "error",
       "import/order": [
         "error",
         {
